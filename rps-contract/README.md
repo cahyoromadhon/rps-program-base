@@ -1,6 +1,7 @@
 # RockPaperScissors NFT Game
 
 A simple **Rock-Paper-Scissors** smart contract on Base Sepolia. Players can:
+
 - Create and join games
 - Submit moves
 - Automatically determine winners
@@ -11,6 +12,7 @@ A simple **Rock-Paper-Scissors** smart contract on Base Sepolia. Players can:
 ## 🛠️ Prerequisites
 
 You will need:
+
 - **Windows with WSL (Ubuntu recommended)** or Linux
 - **Git**
 - **Foundry** (Forge + Cast)
@@ -73,6 +75,7 @@ cd rps-contract
 
 ```bash
 forge build
+forge test
 forge test -vvvv
 ```
 
@@ -83,44 +86,40 @@ forge test -vvvv
 Set your RPC and wallet:
 
 ```bash
-export BASE_SEPOLIA_RPC="https://sepolia.base.org"
-export PRIVATE_KEY="your_private_key"
+cast wallet import <your-wallet-name> --private-key YOUR_PRIVATE_KEY_HERE
+cast wallet list
+export PRIVATE_KEY=$(cast wallet private-key --account <your-wallet-name>)
+
 ```
 
 Deploy:
 
 ```bash
-forge script script/RPSGame.s.sol --rpc-url $BASE_SEPOLIA_RPC --private-key $PRIVATE_KEY --broadcast
+forge script script/RPSGame.s.sol \
+  --rpc-url https://sepolia.base.org/ \
+  --broadcast \
+  --account <your-wallet-name>
 ```
 
 ---
 
 ## ⚡ Step 6: Verify on BaseScan
 
-1. Sign up at [BaseScan](https://sepolia.basescan.org/)
-2. Get an API key
-3. Export it:
-   ```bash
-   export ETHERSCAN_API_KEY=your_key_here
-   ```
-
-Then run:
-
 ```bash
 forge verify-contract \
-  0xYourContractAddress \
+  <your-deployed-contract> \
   src/RPSGame.sol:RockPaperScissors \
   --chain 84532 \
-  --verifier etherscan \
-  --verifier-url https://api-sepolia.basescan.org/api
+  --verifier sourcify \
+  --constructor-args $(cast abi-encode "constructor(address)" $(cast wallet address --account <your-wallet-name>))
 ```
 
 ---
 
-## ⚡ Run Tests
+## ⚡ Check on Base Sepolia Explorer
 
 ```bash
-forge test
+https://sepolia.basescan.org/
 ```
 
 ---
