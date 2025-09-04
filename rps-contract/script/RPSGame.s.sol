@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.26;
 
-import {Script, console} from "lib/forge-std/src/Script.sol";
+import {Script, console} from "forge-std/Script.sol";
 import "../src/RPSGame.sol";
 
 contract RPSGameScript is Script {
