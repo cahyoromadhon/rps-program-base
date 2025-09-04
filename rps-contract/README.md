@@ -105,6 +105,9 @@ forge script script/RPSGame.s.sol \
 
 ## ⚡ Step 6: Verify on BaseScan
 
+1. Get Etherscan API Key from: https://etherscan.io/login
+2. Put the API key on .env with name 'ETHERSCAN_API_KEY=<your-key>'
+
 ```bash
 forge verify-contract \
   <your-deployed-contract> \
